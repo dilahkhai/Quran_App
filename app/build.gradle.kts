@@ -44,6 +44,15 @@ android {
 
 dependencies {
 
+    //FusedLocation
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    //coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    //LiveData
+    api("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
     implementation("com.squareup.moshi:moshi:1.14.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
 

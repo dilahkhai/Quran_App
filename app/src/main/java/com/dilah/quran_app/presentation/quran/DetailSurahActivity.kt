@@ -1,7 +1,10 @@
 package com.dilah.quran_app.presentation.quran
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dilah.quran_app.R
@@ -15,34 +18,59 @@ class DetailSurahActivity : AppCompatActivity() {
 
     private val binding get() = _binding as ActivityDetailSurahBinding
 
+    private var _surah: Surah? = null
+
+    private val surah get() = _surah as Surah
+
+    private var _mediaPlayer: MediaPlayer? = null
+
+    private val mediaPlayer get() = _mediaPlayer as MediaPlayer
+
+    private var quranViewModel: QuranViewModel by viewModels { ViewModelFactory(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailSurahBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_detail_surah)
+        setContentView(binding.root)
 
-        val data = intent.getParcelableExtra(EXTRA_DATA, SurahItem::class.java)
+        _surah = intent.getParcelableExtra(EXTRA_DATA, Surah::class.java)
 
-        val quranViewModel = ViewModelProvider(this)[QuranViewModel::class.java]
-        data?.number?.let { quranViewModel.getListAyah(it) }
+        initView()
 
-        binding.apply {
-            val revelationType = data?.revelationType
-            val numberOfAyahs = data?.numberOfAyahs
-            val resultOfAyah = "$revelationType - $numberOfAyahs Ayahs"
-            tvDetailAyah.text = resultOfAyah
-            tvDetailName.text = data?.name
-            tvDetailSurah.text = data?.englishName
-            tvDetailNameTranslation.text = data?.englishNameTranslation
-        }
-
-        quranViewModel.listAyah.observe(this) {
-            binding.rvSurah.apply {
-                val mAdapter = SurahAdapter()
-                mAdapter.setData(it.quranEdition?.get(0)?.listAyahs, it.quranEdition)
-                adapter = mAdapter
-                layoutManager = LinearLayoutManager(this@DetailSurahActivity)
+        val mAdapter = SurahAdapter()
+        mAdapter.setOnItemClickCallback(object : SurahAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Ayah) {
+                showCustomAlertDialog(data, surah)
             }
+        })
+
+        val numberSurah = surah.number
+        if (numberSurah != null) {
+            quranViewModel.getDetailSurahWithQuranEdition(numberSurah).observe(this) {
+                when (it) {
+                    is Resource.Loading -> showLoading(true)
+                    is Resource.Success -> {
+                        binding.rvSurah.apply {
+                            mAdapter.setData(it.data?.get(0)?.listAyahs, it.data)
+                            adapter = mAdapter
+                            layoutManager = LinearLayoutManager(this@DetailSurahActivity)
+                        }
+                        showLoading(false)
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(this, "Error ${it.message}", Toast.LENGTH_SHORT).show()
+                        showLoading(false)
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(this, "Number Surah not Found.", Toast.LENGTH_SHORT).show()
         }
+
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.apply {  }
     }
 
     companion object {

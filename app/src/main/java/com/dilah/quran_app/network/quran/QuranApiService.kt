@@ -6,10 +6,12 @@ import retrofit2.http.Path
 
 interface QuranApiService {
     @GET("surah")
-    fun getListSurah(): retrofit2.Call<SurahResponse>
+    suspend fun getListSurah(): SurahResponse
 
     @GET("surah/{number}/editions/quran-uthmani,ar.alafasyi,id.indonesian")
-    fun getListAyahFromSurah(@Path("number") numberSurah: Int): retrofit2.Call<AyahResponse>
+    fun getDetailSurahWithQuranEdition(
+        @Path("number") numberSurah: Int
+    ): AyahResponse
 
     fun getListAyahBySurah(@Path("number") numberSurah: Int): retrofit2.Call<AyahResponse>
 }
