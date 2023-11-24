@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.dilah.quran_app.databinding.ActivityMainBinding
 import com.dilah.quran_app.utils.PERMISSION_LOC_REQ_CODE
 import com.google.android.gms.location.LocationServices
@@ -32,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        bottomView.setupWithNavController(navController)
     }
 
     private fun getUserLocation() {
@@ -40,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
                 fusedLocationClient.lastLocation
             } else {
-                Toast.makeText(this, "Please turn on location.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please turn on location.", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }
@@ -90,11 +93,11 @@ class MainActivity : AppCompatActivity() {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 getUserLocation()
             } else {
-                Toast.makeText(this, "Need Permission to Access Location.", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "Need Permission to Access Location.", Toast.LENGTH_LONG)
                     .show()
             }
         } else {
-            Toast.makeText(this, "Permission not found.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Permission not found.", Toast.LENGTH_LONG).show()
         }
     }
 

@@ -65,14 +65,15 @@ class DetailSurahActivity : AppCompatActivity() {
                         }
                         showLoading(false)
                     }
+
                     is Resource.Error -> {
-                        Toast.makeText(this, "Error ${it.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Error ${it.message}", Toast.LENGTH_LONG).show()
                         showLoading(false)
                     }
                 }
             }
         } else {
-            Toast.makeText(this, "Number Surah not Found.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Number Surah not Found.", Toast.LENGTH_LONG).show()
         }
 
     }

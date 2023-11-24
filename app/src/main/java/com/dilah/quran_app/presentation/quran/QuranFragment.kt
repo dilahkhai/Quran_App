@@ -46,7 +46,7 @@ class QuranFragment : Fragment() {
                     showLoading(false)
                 }
                 is Resource.Error -> {
-                    Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error ${it.message}", Toast.LENGTH_LONG).show()
                     showLoading(false)
                 }
             }
