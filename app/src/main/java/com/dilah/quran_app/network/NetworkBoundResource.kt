@@ -26,5 +26,5 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
     protected abstract suspend fun createCall(): Flow<NetworkResponse<RequestType>>
 
-    fun asFlow(): Flow<Resource<ResultType>> = result
+    fun asFlow() : Flow<Resource<ResultType>> = result
 }

@@ -36,7 +36,7 @@ data class QuranEditionItem(
     val numberOfAyahs: Int? = null,
 
     @Json(name = "ayahs")
-    val listAyahs: List<AyahsItem>? = null
+    val listAyahs: List<AyahsItem>
 )
 
 @JsonClass(generateAdapter = true)

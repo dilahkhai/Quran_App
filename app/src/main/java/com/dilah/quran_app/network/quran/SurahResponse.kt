@@ -5,20 +5,18 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 @JsonClass(generateAdapter = true)
 data class SurahResponse(
     @Json(name = "code")
     val code: Int? = null,
 
     @Json(name = "data")
-    val listSurah: List<SurahItem>? = null,
+    val listSurah: List<SurahItem>,
 
     @Json(name = "status")
     val status: String? = null
-): Parcelable
+)
 
-@Parcelize
 @JsonClass(generateAdapter = true)
 data class SurahItem(
 
@@ -39,4 +37,4 @@ data class SurahItem(
 
     @Json(name = "englishNameTranslation")
     val englishNameTranslation: String? = null
-): Parcelable
+)

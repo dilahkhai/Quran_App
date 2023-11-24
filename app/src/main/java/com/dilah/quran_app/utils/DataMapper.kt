@@ -1,6 +1,9 @@
 package com.dilah.quran_app.utils
 
+import com.dilah.quran_app.network.adzan.City
 import com.dilah.quran_app.network.adzan.CityItem
+import com.dilah.quran_app.network.adzan.DailyAdzan
+import com.dilah.quran_app.network.adzan.JadwalItem
 import com.dilah.quran_app.network.quran.AyahsItem
 import com.dilah.quran_app.network.quran.QuranEditionItem
 import com.dilah.quran_app.network.quran.SurahItem
@@ -72,5 +75,22 @@ object DataMapper {
             listCity.add(city)
         }
         return flowOf(listCity)
+    }
+
+    @JvmName("mapDailyResponseToDomain")
+    fun mapResponseToDomain(input: JadwalItem): Flow<DailyAdzan> {
+        val dailyAdzan = DailyAdzan(
+            date = input.date,
+            imsak = input.imsak,
+            isya = input.isya,
+            dzuhur = input.dzuhur,
+            subuh = input.subuh,
+            dhuha = input.dhuha,
+            terbit = input.terbit,
+            tanggal = input.tanggal,
+            ashar = input.ashar,
+            maghrib = input.maghrib
+        )
+        return flowOf(dailyAdzan)
     }
 }

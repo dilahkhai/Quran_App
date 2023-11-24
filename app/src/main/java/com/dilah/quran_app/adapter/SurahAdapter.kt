@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dilah.quran_app.databinding.ItemAyahBinding
 import com.dilah.quran_app.network.quran.AyahsItem
-import com.dilah.quran_app.network.quran.QuranEdition
 import com.dilah.quran_app.presentation.quran.Ayah
+import com.dilah.quran_app.presentation.quran.QuranEdition
 
 class SurahAdapter : RecyclerView.Adapter<SurahAdapter.MyViewHolder>() {
-    private val listAyah = ArrayList<AyahsItem>()
+    private val listAyah = ArrayList<Ayah>()
     private val listEdition = ArrayList<QuranEdition>()
     private var onItemClickCallback: OnItemClickCallback? = null
 
@@ -17,7 +17,7 @@ class SurahAdapter : RecyclerView.Adapter<SurahAdapter.MyViewHolder>() {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    fun setData(dataAyah: List<AyahsItem>?, dataEdition: List<QuranEdition>?) {
+    fun setData(dataAyah: List<Ayah>?, dataEdition: List<QuranEdition>?) {
         if (dataAyah == null || dataEdition == null) return
         listAyah.clear()
         listAyah.addAll(dataAyah)
@@ -35,8 +35,8 @@ class SurahAdapter : RecyclerView.Adapter<SurahAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listAyah = listAyah[position]
-        val quranAudio = listEdition[1].listAyahs?.get(position)
-        val quranTranslationIndo = listEdition[2].listAyahs?.get(position)
+        val quranAudio = listEdition[1].listAyahs.get(position)
+        val quranTranslationIndo = listEdition[2].listAyahs.get(position)
 
         holder.binding.apply {
             tvItemNumberAyah.text = listAyah.numberInSurah.toString()
@@ -47,9 +47,11 @@ class SurahAdapter : RecyclerView.Adapter<SurahAdapter.MyViewHolder>() {
             }
         }
     }
+
+    interface OnItemClickCallback {
+
+        fun onItemClicked(data: Ayah)
+    }
 }
 
-interface OnItemClickCallback {
 
-    fun onItemClicked(data: Ayah)
-}
