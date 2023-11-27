@@ -13,7 +13,6 @@ import com.dilah.quran_app.network.RemoteDataSource
 import com.dilah.quran_app.network.Resource
 import com.dilah.quran_app.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 
 class AdzanRepository (
     private val remoteDataSource: RemoteDataSource,
@@ -48,12 +47,7 @@ class AdzanRepository (
 
             override suspend fun createCall(): Flow<NetworkResponse<JadwalItem>> {
                 return remoteDataSource
-                    .getDailyAdzanTime(
-                        id,
-                        year,
-                        month,
-                        date
-                    )
+                    .getDailyAdzanTime(id, year, month, date)
             }
         }.asFlow()
     }
